@@ -1,0 +1,8 @@
+node_modules/
+*.vsix
+.DS_Store
+Thumbs.db
+
+test-files/
+vsix-tmp
+vsix_tmp.zip

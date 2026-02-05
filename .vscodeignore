@@ -1,4 +1,11 @@
+.git/**
+.github/**
 .vscode/**
-.vscode-test/**
-.gitignore
-vsc-extension-quickstart.md
+**/*.log
+**/*.ts
+**/*.map
+node_modules/**
+*.vsix
+vsix_tmp/**
+vsix_tmp.zip
+test-files/**

@@ -1,32 +1,678 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Openplanet AngelScript",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.openplanet-angelscript",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.openplanet-angelscript",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.openplanet-angelscript",
-					"match": "\\\\."
-				}
-			]
-		}
-	},
-	"scopeName": "source.angelscript.openplanet"
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Openplanet AngelScript",
+  "scopeName": "source.angelscript.openplanet",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#preprocessor" },
+    { "include": "#imports" },
+    { "include": "#attributes" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+
+    { "include": "#declarations" },
+
+    { "include": "#caseLabels" },
+    { "include": "#keywords" },
+    { "include": "#handleVariables" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#icons" },
+    { "include": "#functionReferences" },
+
+    { "include": "#memberAccess" },
+    { "include": "#functionCalls" },
+    { "include": "#typeIdentifiers" },
+    { "include": "#variables" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "name": "comment.line.double-slash.angelscript", "match": "//.*$" },
+        { "name": "comment.block.angelscript", "begin": "/\\*", "end": "\\*/" }
+      ]
+    },
+
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "invalid.deprecated.preprocessor.include.angelscript",
+          "begin": "^\\s*#\\s*include\\b",
+          "end": "$",
+          "patterns": [
+            { "include": "#strings" },
+            { "name": "string.quoted.other.angle.angelscript", "match": "<[^>]+>" }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.if.single-invalid.angelscript",
+          "begin": "^\\s*#\\s*(if|elif)\\b(?=[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)",
+          "end": "$",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.directive.angelscript" }
+          },
+          "patterns": [
+            { "include": "#preprocessorDefinesWarning" }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.if.angelscript",
+          "begin": "^\\s*#\\s*(if|elif)\\b",
+          "end": "$",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.directive.angelscript" }
+          },
+          "patterns": [
+            { "include": "#preprocessorDefines" }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.define.single-invalid.angelscript",
+          "begin": "^\\s*#\\s*(define|undef)\\b(?=[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)",
+          "end": "$",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.directive.angelscript" }
+          },
+          "patterns": [
+            { "include": "#preprocessorDefinesWarning" }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.define.angelscript",
+          "begin": "^\\s*#\\s*(define|undef)\\b",
+          "end": "$",
+          "beginCaptures": {
+            "1": { "name": "keyword.control.directive.angelscript" }
+          },
+          "patterns": [
+            { "include": "#preprocessorDefines" }
+          ]
+        },
+        {
+          "name": "meta.preprocessor.angelscript",
+          "match": "^\\s*#\\s*(else|endif)\\b"
+        },
+        {
+          "name": "invalid.illegal.preprocessor.command.angelscript",
+          "begin": "^\\s*#\\s*(?!include\\b|if\\b|elif\\b|else\\b|endif\\b|define\\b|undef\\b)([A-Za-z_]\\w*)\\b",
+          "end": "$",
+          "beginCaptures": {
+            "1": { "name": "invalid.illegal.preprocessor.command.angelscript" }
+          },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#numbers" }
+          ]
+        }
+      ]
+    },
+
+    "preprocessorDefines": {
+      "patterns": [
+        { "include": "#comments" },
+        { "name": "keyword.operator.logical.angelscript", "match": "&&|\\|\\||!" },
+        { "name": "punctuation.parenthesis.angelscript", "match": "[()]" },
+        { "include": "#numbers" },
+        {
+          "name": "constant.other.preprocessor.define.angelscript",
+          "match": "\\b(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b"
+        },
+        {
+          "name": "invalid.illegal.preprocessor.define.angelscript",
+          "match": "\\b[A-Za-z_]\\w*\\b"
+        }
+      ]
+    },
+
+    "preprocessorDefinesWarning": {
+      "patterns": [
+        { "include": "#comments" },
+        { "name": "keyword.operator.logical.angelscript", "match": "&&|\\|\\||!" },
+        { "name": "punctuation.parenthesis.angelscript", "match": "[()]" },
+        { "include": "#numbers" },
+        {
+          "name": "constant.other.preprocessor.define.angelscript",
+          "match": "\\b(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b"
+        },
+        {
+          "name": "invalid.warning.preprocessor.define.angelscript",
+          "match": "\\b[A-Za-z_]\\w*\\b"
+        }
+      ]
+    },
+
+    "caseLabels": {
+      "patterns": [
+        {
+          "name": "meta.switch.case.angelscript",
+          "begin": "\\bcase\\b",
+          "end": ":",
+          "beginCaptures": {
+            "0": { "name": "keyword.control.angelscript" }
+          },
+          "patterns": [
+            { "include": "#memberAccess" },
+            { "include": "#numbers" },
+            { "include": "#constants" },
+            {
+              "name": "constant.other.enum-member.angelscript",
+              "match": "\\b[A-Za-z_]\\w*\\b"
+            }
+          ]
+        }
+      ]
+    },
+
+    "imports": {
+      "patterns": [
+        {
+          "name": "meta.import.angelscript",
+          "begin": "\\bimport\\b",
+          "end": ";",
+          "beginCaptures": { "0": { "name": "keyword.other.import.angelscript" } },
+          "patterns": [
+            { "name": "keyword.other.from.angelscript", "match": "\\bfrom\\b" },
+            { "include": "#types" },
+            { "include": "#strings" },
+            { "name": "entity.name.function.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*\\()" },
+            { "name": "variable.other.angelscript", "match": "\\b[A-Za-z_]\\w*\\b" }
+          ]
+        }
+      ]
+    },
+
+    "attributes": {
+      "patterns": [
+        { "include": "#settingAnnotation" },
+        { "include": "#settingsTabAnnotation" },
+        {
+          "name": "meta.annotation.angelscript",
+          "begin": "\\[",
+          "end": "\\]",
+          "patterns": [
+            { "include": "#strings" },
+            { "name": "entity.other.attribute-name.angelscript", "match": "\\b[A-Za-z_]\\w*\\b" },
+            { "name": "variable.parameter.annotation.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*=)" },
+            { "name": "keyword.operator.assignment.angelscript", "match": "=" },
+            { "name": "punctuation.separator.comma.angelscript", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "settingAnnotation": {
+      "patterns": [
+        {
+          "name": "meta.annotation.setting.angelscript",
+          "begin": "\\[\\s*(Setting)\\b",
+          "end": "\\]",
+          "beginCaptures": {
+            "1": { "name": "entity.other.attribute-name.setting.angelscript" }
+          },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#numbers" },
+            {
+              "name": "variable.parameter.annotation.setting.angelscript",
+              "match": "\\b(?:name|description|category|hidden|if|enableif|beforerender|afterrender|min|max|drag|color|multiline|password|step)\\b"
+            },
+            { "name": "variable.parameter.annotation.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*=)" },
+            { "name": "entity.other.attribute-name.angelscript", "match": "\\b[A-Za-z_]\\w*\\b" },
+            { "name": "keyword.operator.assignment.angelscript", "match": "=" },
+            { "name": "punctuation.separator.comma.angelscript", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "settingsTabAnnotation": {
+      "patterns": [
+        {
+          "name": "meta.annotation.settingstab.angelscript",
+          "begin": "\\[\\s*(SettingsTab)\\b",
+          "end": "\\]",
+          "beginCaptures": {
+            "1": { "name": "entity.other.attribute-name.settingstab.angelscript" }
+          },
+          "patterns": [
+            { "include": "#strings" },
+            { "include": "#numbers" },
+            {
+              "name": "variable.parameter.annotation.settingstab.angelscript",
+              "match": "\\b(?:name|icon|order)\\b"
+            },
+            { "name": "variable.parameter.annotation.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*=)" },
+            { "name": "entity.other.attribute-name.angelscript", "match": "\\b[A-Za-z_]\\w*\\b" },
+            { "name": "keyword.operator.assignment.angelscript", "match": "=" },
+            { "name": "punctuation.separator.comma.angelscript", "match": "," }
+          ]
+        }
+      ]
+    },
+
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.angelscript",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.angelscript",
+              "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|.)"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.angelscript",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.angelscript",
+              "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|.)"
+            }
+          ]
+        }
+      ]
+    },
+
+    "numbers": {
+      "patterns": [
+        { "name": "constant.numeric.hex.angelscript", "match": "\\b0[xX][0-9A-Fa-f]+\\b" },
+        { "name": "constant.numeric.float.angelscript", "match": "\\b\\d+\\.\\d*([eE][+-]?\\d+)?[fF]?\\b" },
+        { "name": "constant.numeric.float.angelscript", "match": "(?<![\\w\\.])\\.\\d+([eE][+-]?\\d+)?[fF]?\\b" },
+        { "name": "constant.numeric.integer.angelscript", "match": "\\b\\d+\\b" }
+      ]
+    },
+
+    "declarations": {
+      "patterns": [
+        {
+          "name": "meta.declaration.enum.angelscript",
+          "begin": "\\benum\\b\\s+([A-Za-z_]\\w*)\\s*\\{",
+          "beginCaptures": {
+            "0": { "name": "storage.type.angelscript" },
+            "1": { "name": "entity.name.type.enum.angelscript" }
+          },
+          "end": "\\}",
+          "patterns": [
+            { "include": "#comments" },
+            { "include": "#numbers" },
+            { "name": "constant.other.enum-member.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*(?:=|,|\\}|$|//|/\\*))" },
+            { "name": "keyword.operator.assignment.angelscript", "match": "=" },
+            { "name": "punctuation.separator.comma.angelscript", "match": "," }
+          ]
+        },
+
+        {
+          "name": "meta.declaration.class.angelscript",
+          "match": "\\b(class|interface)\\s+([A-Za-z_]\\w*)",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "entity.name.type.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.declaration.namespace.angelscript",
+          "match": "\\b(namespace)\\s+([A-Za-z_]\\w*)",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "entity.name.namespace.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.declaration.typedef.angelscript",
+          "match": "\\b(typedef)\\s+([^;]+?)\\s+([A-Za-z_]\\w*)\\s*;",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "storage.type.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.declaration.funcdef.angelscript",
+          "match": "\\b(funcdef)\\s+(.+?)\\s+([A-Za-z_]\\w*)\\s*\\(",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "storage.type.angelscript" },
+            "3": { "name": "entity.name.function.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.function.definition.constructor.angelscript",
+          "begin": "(^|[\\{;])\\s*([A-Z][A-Za-z0-9_]*)\\s*\\((?=[^\\)]*\\)\\s*\\{)",
+          "beginCaptures": {
+            "2": { "name": "entity.name.type.angelscript" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#comments" },
+            { "include": "#strings" },
+            { "include": "#numbers" },
+            { "include": "#keywords" },
+            { "include": "#types" },
+            { "include": "#typeIdentifiers" },
+            { "include": "#handleVariables" },
+            { "include": "#memberAccess" },
+            { "include": "#variables" }
+          ]
+        },
+        {
+          "name": "meta.function.definition.destructor.angelscript",
+          "begin": "(^|[\\{;])\\s*(~)\\s*([A-Za-z_]\\w*)\\s*\\((?=[^\\)]*\\)\\s*\\{)",
+          "beginCaptures": {
+            "2": { "name": "entity.name.type.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#comments" },
+            { "include": "#strings" },
+            { "include": "#numbers" },
+            { "include": "#keywords" },
+            { "include": "#types" },
+            { "include": "#typeIdentifiers" },
+            { "include": "#handleVariables" },
+            { "include": "#memberAccess" },
+            { "include": "#variables" }
+          ]
+        },
+
+        {
+          "name": "meta.function.definition.builtin.angelscript",
+          "match": "\\b(?:\\b(?:private|protected|shared|external|abstract|mixin|final|override)\\b\\s+)*(const\\s+)?(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?\\s+([A-Za-z_]\\w*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "storage.modifier.angelscript" },
+            "2": { "name": "support.namespace.builtin.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" },
+            "4": { "name": "entity.name.type.angelscript" },
+            "5": { "name": "entity.name.function.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.function.definition.callback.angelscript",
+          "match": "\\b(?:\\b(?:private|protected|shared|external|abstract|mixin|final|override)\\b\\s+)*((?:const\\s+)?(?:[A-Za-z_]\\w*(?:\\s*<[^>]*>)?(?:\\s*::\\s*[A-Za-z_]\\w*)?)(?:\\s*\\[\\])*(?:\\s*[@&]+)?)\\s+(Main|Render|RenderInterface|RenderMenu|RenderMenuMain|RenderSettings|RenderEarly|Update|OnDisabled|OnEnabled|OnDestroyed|OnSettingsChanged|OnSettingsSave|OnSettingsLoad|OnKeyPress|OnMouseButton|OnMouseMove|OnMouseWheel|OnLoadCallback)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "entity.name.function.callback.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.function.definition.angelscript",
+          "match": "\\b(?:\\b(?:private|protected|shared|external|abstract|mixin|final|override)\\b\\s+)*(?:const\\s+)?((?:[A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)?))(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?\\s+([A-Za-z_]\\w*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "entity.name.type.angelscript" },
+            "3": { "name": "entity.name.function.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.variable.definition.const.builtin.angelscript",
+          "match": "\\b(const)\\s+(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?(?:\\s*(?:in|out|inout)\\b)?\\s+([A-Za-z_]\\w*)\\b(?=\\s*(?:=|;|,|\\)|\\]|\\}))",
+          "captures": {
+            "1": { "name": "storage.modifier.angelscript" },
+            "2": { "name": "support.namespace.builtin.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" },
+            "4": { "name": "entity.name.type.angelscript" },
+            "5": { "name": "variable.other.constant.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.variable.definition.builtin.angelscript",
+          "match": "\\b(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?(?:\\s*(?:in|out|inout)\\b)?\\s+([A-Za-z_]\\w*)\\b(?=\\s*(?:=|;|,|\\)|\\]|\\}))",
+          "captures": {
+            "1": { "name": "support.namespace.builtin.angelscript" },
+            "2": { "name": "entity.name.type.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" },
+            "4": { "name": "variable.other.readwrite.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.variable.definition.const.angelscript",
+          "match": "\\b(const)\\s+(?:(void|bool|int|uint|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float|double|string|vec2|vec3|vec4|int2|int3|nat2|nat3|quat|array|dictionary)|((?!(?:void|bool|int|uint|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float|double|string|vec2|vec3|vec4|int2|int3|nat2|nat3|quat|array|dictionary)\\b)[A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*))(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?(?:\\s*(?:in|out|inout)\\b)?\\s+([A-Za-z_]\\w*)\\b(?=\\s*(?:=|;|,|\\)|\\]|\\}))",
+          "captures": {
+            "1": { "name": "storage.modifier.angelscript" },
+            "2": { "name": "storage.type.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" },
+            "4": { "name": "entity.name.type.angelscript" },
+            "5": { "name": "variable.other.constant.angelscript" }
+          }
+        },
+
+        {
+          "name": "meta.variable.definition.angelscript",
+          "match": "\\b(?!return\\b|if\\b|for\\b|while\\b|switch\\b|case\\b|break\\b|continue\\b|else\\b|new\\b|delete\\b)(?:(void|bool|int|uint|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float|double|string|vec2|vec3|vec4|int2|int3|nat2|nat3|quat|array|dictionary)|((?!(?:void|bool|int|uint|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float|double|string|vec2|vec3|vec4|int2|int3|nat2|nat3|quat|array|dictionary)\\b)[A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*))(?:\\s*<\\s*([A-Za-z_]\\w*(?:\\s*::\\s*[A-Za-z_]\\w*)*)\\s*(?:[@&]+)?\\s*>)?(?:\\s*\\[\\])*(?:\\s*[@&]+)?(?:\\s*(?:in|out|inout)\\b)?\\s+([A-Za-z_]\\w*)\\b(?=\\s*(?:=|;|,|\\)|\\]|\\}))",
+          "captures": {
+            "1": { "name": "storage.type.angelscript" },
+            "2": { "name": "entity.name.type.angelscript" },
+            "3": { "name": "entity.name.type.angelscript" },
+            "4": { "name": "variable.other.readwrite.angelscript" }
+          }
+        }
+      ]
+    },
+
+    "keywords": {
+      "patterns": [
+        { "name": "keyword.control.angelscript", "match": "\\b(break|case|continue|default|do|else|for|if|return|switch|while|try|catch|throw)\\b" },
+        { "name": "keyword.operator.word.angelscript", "match": "\\b(and|or|xor|not)\\b" },
+        { "name": "keyword.other.new.angelscript", "match": "\\b(new|delete)\\b" },
+
+        { "name": "storage.type.angelscript", "match": "\\b(class|interface|enum|namespace|typedef|funcdef)\\b" },
+        { "name": "storage.modifier.angelscript", "match": "\\b(const|final|override|private|protected|shared|external|abstract|mixin|auto|in|inout|out|get|set)\\b" },
+
+        { "name": "variable.language.angelscript", "match": "\\b(this|super)\\b" },
+        { "name": "keyword.other.angelscript", "match": "\\b(cast|function|from|import)\\b" }
+      ]
+    },
+
+    "types": {
+      "patterns": [
+        { "name": "storage.type.primitive.angelscript", "match": "\\b(void|bool|int|uint|int8|int16|int32|int64|uint8|uint16|uint32|uint64|float|double|string|vec2|vec3|vec4|int2|int3|nat2|nat3|quat)\\b" },
+        { "name": "support.type.container.angelscript", "match": "\\b(array|dictionary)\\b" },
+        { "name": "storage.modifier.reference.angelscript", "match": "[@&]+" }
+      ]
+    },
+
+    "icons": {
+      "patterns": [
+        {
+          "name": "constant.other.icon.angelscript",
+          "match": "\\bIcons\\s*::\\s*[A-Za-z0-9_]+(?:\\s*::\\s*[A-Za-z0-9_]+)*\\b"
+        }
+      ]
+    },
+
+    "functionReferences": {
+      "patterns": [
+        {
+          "name": "meta.function.reference.wrapper.angelscript",
+          "begin": "\\b(CoroutineFunc|CoroutineFuncUserdata)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "entity.name.function.angelscript" }
+          },
+          "end": "\\)",
+          "patterns": [
+            {
+              "name": "meta.function.reference.wrapper.builtin.angelscript",
+              "match": "\\b(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)\\b",
+              "captures": {
+                "1": { "name": "support.namespace.builtin.angelscript" },
+                "2": { "name": "entity.name.function.angelscript" }
+              }
+            },
+            {
+              "name": "meta.function.reference.wrapper.namespace.angelscript",
+              "match": "\\b([A-Za-z_]\\w*)\\s*::\\s*([A-Za-z_]\\w*)\\b",
+              "captures": {
+                "1": { "name": "support.namespace.angelscript" },
+                "2": { "name": "entity.name.function.angelscript" }
+              }
+            },
+            {
+              "name": "meta.function.reference.wrapper.simple.angelscript",
+              "match": "\\b[A-Za-z_]\\w*\\b",
+              "captures": {
+                "0": { "name": "entity.name.function.angelscript" }
+              }
+            }
+          ]
+        },
+        {
+          "name": "meta.function.reference.builtin.angelscript",
+          "match": "\\b(startnew)\\s*\\(\\s*(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)\\b",
+          "captures": {
+            "1": { "name": "entity.name.function.angelscript" },
+            "2": { "name": "support.namespace.builtin.angelscript" },
+            "3": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.function.reference.namespace.angelscript",
+          "match": "\\b(startnew)\\s*\\(\\s*(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)([A-Za-z_]\\w*)\\s*::\\s*([A-Za-z_]\\w*)\\b",
+          "captures": {
+            "1": { "name": "entity.name.function.angelscript" },
+            "2": { "name": "support.namespace.angelscript" },
+            "3": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.function.reference.angelscript",
+          "match": "\\b(startnew)\\s*\\(\\s*(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)([A-Za-z_]\\w*)\\b",
+          "captures": {
+            "1": { "name": "entity.name.function.angelscript" },
+            "2": { "name": "entity.name.function.angelscript" }
+          }
+        }
+      ]
+    },
+
+    "constants": {
+      "patterns": [
+        { "name": "constant.language.angelscript", "match": "\\b(true|false|null)\\b" },
+        { "name": "constant.other.caps.angelscript", "match": "\\b[A-Z][A-Z0-9_]{2,}\\b" }
+      ]
+    },
+
+    "memberAccess": {
+      "patterns": [
+        {
+          "name": "meta.scope-resolution.function-call.builtin.angelscript",
+          "match": "\\b(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "support.namespace.builtin.angelscript" },
+            "2": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.scope-resolution.member.builtin.angelscript",
+          "match": "\\b(UI|nvg|Audio|Auth|Crypto|Display|Fids|IO|Icons|Json|Math|Net|Path|Permissions|Regex|SQLite|Settings|Tests|Text|Time|XML|mat3|mat4|string|Reflection|Discord|Meta|Import|Dev|Internal|Controls|Camera|VehicleState|NadeoServices)\\s*::\\s*([A-Za-z_]\\w*)\\b(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "support.namespace.builtin.angelscript" },
+            "2": { "name": "constant.other.enum-member.angelscript" }
+          }
+        },
+        {
+          "name": "meta.scope-resolution.function-call.type.angelscript",
+          "match": "\\b([A-Z][A-Za-z0-9_]*)\\s*::\\s*([A-Za-z_]\\w*)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.type.angelscript" },
+            "2": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.scope-resolution.member.type.angelscript",
+          "match": "\\b([A-Z][A-Za-z0-9_]*)\\s*::\\s*([A-Za-z_]\\w*)\\b(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.type.angelscript" },
+            "2": { "name": "constant.other.enum-member.angelscript" }
+          }
+        },
+        {
+          "name": "meta.scope-resolution.function-call.angelscript",
+          "match": "\\b([A-Za-z_]\\w*)\\s*::\\s*([A-Za-z_]\\w*)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "support.namespace.angelscript" },
+            "2": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.scope-resolution.member.angelscript",
+          "match": "\\b([A-Za-z_]\\w*)\\s*::\\s*([A-Za-z_]\\w*)\\b(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "support.namespace.angelscript" },
+            "2": { "name": "variable.other.readwrite.angelscript" }
+          }
+        },
+        {
+          "name": "meta.member.function-call.angelscript",
+          "match": "\\.([A-Za-z_]\\w*)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.angelscript" }
+          }
+        },
+        {
+          "name": "meta.member.access.angelscript",
+          "match": "\\.([A-Za-z_]\\w*)\\b(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "variable.other.member.angelscript" }
+          }
+        },
+        { "name": "support.namespace.angelscript", "match": "\\b[A-Za-z_]\\w*(?=\\s*::)" },
+        { "name": "punctuation.separator.namespace.angelscript", "match": "::" }
+      ]
+    },
+
+    "functionCalls": {
+      "patterns": [
+        {
+          "name": "meta.constructor.call.angelscript",
+          "match": "(?:\\bnew\\s+|\\breturn\\s+|=\\s*|@\\s*|\\(\\s*|,\\s*)(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)([A-Z][A-Za-z0-9_]*)\\b(?=\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.type.angelscript" }
+          }
+        },
+        { "name": "entity.name.function.angelscript", "match": "\\b[A-Za-z_]\\w*\\b(?=\\s*\\()" }
+      ]
+    },
+
+    "typeIdentifiers": {
+      "patterns": [
+        {
+          "name": "entity.name.type.angelscript",
+          "match": "\\b[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*\\b"
+        }
+      ]
+    },
+
+    "handleVariables": {
+      "patterns": [
+        {
+          "match": "@\\s*([A-Za-z_]\\w*)",
+          "captures": {
+            "1": { "name": "variable.other.readwrite.angelscript" }
+          }
+        }
+      ]
+    },
+
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.readwrite.angelscript",
+          "match": "\\b(?!break\\b|case\\b|continue\\b|default\\b|do\\b|else\\b|for\\b|if\\b|return\\b|switch\\b|while\\b|try\\b|catch\\b|throw\\b|and\\b|or\\b|xor\\b|not\\b|is\\b|new\\b|delete\\b|class\\b|interface\\b|enum\\b|namespace\\b|typedef\\b|funcdef\\b|const\\b|final\\b|override\\b|private\\b|protected\\b|shared\\b|external\\b|abstract\\b|mixin\\b|auto\\b|in\\b|inout\\b|out\\b|get\\b|set\\b|cast\\b|function\\b|from\\b|import\\b|super\\b|this\\b|void\\b|bool\\b|int\\b|uint\\b|int8\\b|int16\\b|int32\\b|int64\\b|uint8\\b|uint16\\b|uint32\\b|uint64\\b|float\\b|double\\b|string\\b|array\\b|dictionary\\b|true\\b|false\\b|null\\b)[A-Za-z_]\\w*\\b"
+        }
+      ]
+    }
+  }
 }

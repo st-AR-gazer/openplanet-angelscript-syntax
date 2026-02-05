@@ -1,0 +1,73 @@
+{
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "entity.name.function.callback.angelscript",
+        "settings": {
+          "foreground": "#ffd166",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "invalid.deprecated.preprocessor.include.angelscript",
+        "settings": {
+          "foreground": "#ff9b9b"
+        }
+      },
+      {
+        "scope": "invalid.warning.preprocessor.define.angelscript",
+        "settings": {
+          "foreground": "#ffb86b"
+        }
+      },
+      {
+        "scope": "constant.other.enum-member.angelscript",
+        "settings": {
+          "foreground": "#c3e88d"
+        }
+      },
+      {
+        "scope": "support.namespace.builtin.angelscript",
+        "settings": {
+          "foreground": "#7EC8A3",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "support.namespace.angelscript",
+        "settings": {
+          "foreground": "#7EC8A3"
+        }
+      },
+      {
+        "scope": "constant.other.icon.angelscript",
+        "settings": {
+          "foreground": "#c3e88d"
+        }
+      },
+      {
+        "scope": "variable.other.constant.angelscript",
+        "settings": {
+          "foreground": "#82aaff",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": "constant.other.caps.angelscript",
+        "settings": {
+          "foreground": "#82aaff",
+          "fontStyle": "bold"
+        }
+      },
+      {
+        "scope": [
+          "string.quoted.double.angelscript",
+          "string.quoted.single.angelscript"
+        ],
+        "settings": {
+          "foreground": "#c29b6b"
+        }
+      }
+    ]
+  }
+}

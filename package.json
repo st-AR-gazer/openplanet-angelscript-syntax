@@ -1,25 +1,112 @@
 {
   "name": "openplanet-angelscript-syntax",
-  "displayName": "openplanet-angelscript-syntax",
-  "description": "A syntaxhighlighter for Openplanet flavoured angelscript",
-  "version": "0.0.1",
+  "displayName": "Openplanet AngelScript Syntax",
+  "description": "Fast, config-only syntax highlighting + language configuration for Openplanet-flavored AngelScript (.as).",
+  "icon": "icon.png",
+  "version": "0.1.0",
+  "publisher": "ar",
+  "license": "Unlicense",
   "engines": {
-    "vscode": "^1.109.0"
+    "vscode": "^1.65.0"
   },
-  "categories": [
-    "Programming Languages"
-  ],
+  "categories": ["Programming Languages"],
+  "keywords": ["openplanet", "angelscript", "trackmania", "tm2020"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax.git"
+  },
+  "bugs": {
+    "url": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax/issues"
+  },
+  "homepage": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax#readme",
   "contributes": {
-    "languages": [{
-      "id": "openplanet-angelscript",
-      "aliases": ["Openplanet AngelScript", "openplanet-angelscript"],
-      "extensions": [".as"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "openplanet-angelscript",
-      "scopeName": "source.angelscript.openplanet",
-      "path": "./syntaxes/openplanet-angelscript.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "openplanet-angelscript",
+        "aliases": ["Openplanet AngelScript", "AngelScript (Openplanet)"],
+        "extensions": [".as"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "openplanet-angelscript",
+        "scopeName": "source.angelscript.openplanet",
+        "path": "./syntaxes/openplanet-angelscript.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": "entity.name.function.callback.angelscript",
+            "settings": {
+              "foreground": "#ffd166",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "invalid.deprecated.preprocessor.include.angelscript",
+            "settings": {
+              "foreground": "#ff9b9b"
+            }
+          },
+          {
+            "scope": "invalid.warning.preprocessor.define.angelscript",
+            "settings": {
+              "foreground": "#ffb86b"
+            }
+          },
+          {
+            "scope": "constant.other.enum-member.angelscript",
+            "settings": {
+              "foreground": "#c3e88d"
+            }
+          },
+          {
+            "scope": "support.namespace.builtin.angelscript",
+            "settings": {
+              "foreground": "#7EC8A3",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "support.namespace.angelscript",
+            "settings": {
+              "foreground": "#7EC8A3"
+            }
+          },
+          {
+            "scope": "constant.other.icon.angelscript",
+            "settings": {
+              "foreground": "#c3e88d"
+            }
+          },
+          {
+            "scope": "variable.other.constant.angelscript",
+            "settings": {
+              "foreground": "#82aaff",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "constant.other.caps.angelscript",
+            "settings": {
+              "foreground": "#82aaff",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": [
+              "string.quoted.double.angelscript",
+              "string.quoted.single.angelscript"
+            ],
+            "settings": {
+              "foreground": "#c29b6b"
+            }
+          }
+        ]
+      }
+    }
   }
 }
