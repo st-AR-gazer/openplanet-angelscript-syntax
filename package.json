@@ -1,0 +1,25 @@
+{
+  "name": "openplanet-angelscript-syntax",
+  "displayName": "openplanet-angelscript-syntax",
+  "description": "A syntaxhighlighter for Openplanet flavoured angelscript",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "openplanet-angelscript",
+      "aliases": ["Openplanet AngelScript", "openplanet-angelscript"],
+      "extensions": [".as"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "openplanet-angelscript",
+      "scopeName": "source.angelscript.openplanet",
+      "path": "./syntaxes/openplanet-angelscript.tmLanguage.json"
+    }]
+  }
+}
