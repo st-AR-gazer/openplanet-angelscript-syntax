@@ -1,6 +1,6 @@
 # Openplanet AngelScript Syntax
 
-Syntax highlighting and language configuration for Openplanet-flavored AngelScript (`.as`). This extension is grammar-only and is intended to work alongside any language server you use.
+Syntax highlighting and language configuration for Openplanet-flavored AngelScript (`.as`). This extension is grammar-only and is intended to work alongside my language server (not released yet).
 
 Features
 - Openplanet preprocessor directives and define validation
