@@ -1,11 +1,16 @@
 {
   "name": "openplanet-angelscript-syntax",
   "displayName": "Openplanet AngelScript Syntax",
-  "description": "Fast, config-only syntax highlighting + language configuration for Openplanet-flavored AngelScript (.as).",
+  "description": "Fast syntax highlighting + language configuration for Openplanet-flavored AngelScript (.as), with refreshable metadata-derived symbols.",
   "icon": "icon.png",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "ar",
   "license": "Unlicense",
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:openplanetAngelscript.refreshGrammarSymbols"
+  ],
   "engines": {
     "vscode": "^1.65.0"
   },
@@ -19,7 +24,45 @@
     "url": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax/issues"
   },
   "homepage": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax#readme",
+  "scripts": {
+    "generate:openplanet-grammar": "node scripts/generate-openplanet-grammar.mjs",
+    "watch:openplanet-grammar": "node scripts/watch-openplanet-grammar.mjs"
+  },
   "contributes": {
+    "commands": [
+      {
+        "command": "openplanetAngelscript.refreshGrammarSymbols",
+        "title": "Openplanet AngelScript: Refresh Syntax Symbols"
+      }
+    ],
+    "configuration": {
+      "title": "Openplanet AngelScript",
+      "properties": {
+        "openplanetAngelscript.refreshSymbolsOnSessionStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Refresh Openplanet syntax symbol lists once when VS Code starts the extension host session."
+        },
+        "openplanetAngelscript.showRefreshButton": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a status bar button to manually refresh Openplanet syntax symbols."
+        },
+        "openplanetAngelscript.includeHeaderFallback": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include Openplanet.h as a fallback symbol source in addition to JSON metadata."
+        },
+        "openplanetAngelscript.sourceDirs": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional Openplanet install directories. If empty, defaults to %USERPROFILE%/OpenplanetNext, %USERPROFILE%/OpenplanetTurbo, and %USERPROFILE%/Openplanet4."
+        }
+      }
+    },
     "languages": [
       {
         "id": "openplanet-angelscript",
@@ -39,61 +82,13 @@
       "editor.tokenColorCustomizations": {
         "textMateRules": [
           {
-            "scope": "entity.name.function.callback.angelscript",
+            "scope": [
+              "comment.line.double-slash.angelscript",
+              "comment.block.angelscript"
+            ],
             "settings": {
-              "foreground": "#ffd166",
-              "fontStyle": "bold"
-            }
-          },
-          {
-            "scope": "invalid.deprecated.preprocessor.include.angelscript",
-            "settings": {
-              "foreground": "#ff9b9b"
-            }
-          },
-          {
-            "scope": "invalid.warning.preprocessor.define.angelscript",
-            "settings": {
-              "foreground": "#ffb86b"
-            }
-          },
-          {
-            "scope": "constant.other.enum-member.angelscript",
-            "settings": {
-              "foreground": "#c3e88d"
-            }
-          },
-          {
-            "scope": "support.namespace.builtin.angelscript",
-            "settings": {
-              "foreground": "#7EC8A3",
-              "fontStyle": "bold"
-            }
-          },
-          {
-            "scope": "support.namespace.angelscript",
-            "settings": {
-              "foreground": "#7EC8A3"
-            }
-          },
-          {
-            "scope": "constant.other.icon.angelscript",
-            "settings": {
-              "foreground": "#c3e88d"
-            }
-          },
-          {
-            "scope": "variable.other.constant.angelscript",
-            "settings": {
-              "foreground": "#82aaff",
-              "fontStyle": "bold"
-            }
-          },
-          {
-            "scope": "constant.other.caps.angelscript",
-            "settings": {
-              "foreground": "#82aaff",
-              "fontStyle": "bold"
+              "foreground": "#637777",
+              "fontStyle": "italic"
             }
           },
           {
@@ -102,7 +97,182 @@
               "string.quoted.single.angelscript"
             ],
             "settings": {
-              "foreground": "#c29b6b"
+              "foreground": "#CE9178"
+            }
+          },
+          {
+            "scope": [
+              "constant.numeric.integer.angelscript",
+              "constant.numeric.float.angelscript",
+              "constant.numeric.hex.angelscript"
+            ],
+            "settings": {
+              "foreground": "#B5CEA8"
+            }
+          },
+          {
+            "scope": [
+              "constant.language.angelscript",
+              "variable.other.constant.angelscript",
+              "constant.other.caps.angelscript"
+            ],
+            "settings": {
+              "foreground": "#7AA2F7",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": [
+              "variable.other.readwrite.angelscript",
+              "variable.language.angelscript",
+              "variable.other.angelscript"
+            ],
+            "settings": {
+              "foreground": "#9CDCFE"
+            }
+          },
+          {
+            "scope": "variable.other.member.angelscript",
+            "settings": {
+              "foreground": "#9CDCFE"
+            }
+          },
+          {
+            "scope": "entity.name.function.angelscript",
+            "settings": {
+              "foreground": "#DCDCAA"
+            }
+          },
+          {
+            "scope": "support.function.builtin.openplanet.angelscript",
+            "settings": {
+              "foreground": "#FFB454",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": [
+              "meta.function.reference.builtin.angelscript support.function.builtin.openplanet.angelscript",
+              "meta.function.reference.namespace.angelscript support.function.builtin.openplanet.angelscript",
+              "meta.function.reference.angelscript support.function.builtin.openplanet.angelscript"
+            ],
+            "settings": {
+              "foreground": "#FFB454",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "entity.name.function.callback.angelscript",
+            "settings": {
+              "foreground": "#FFD166",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "support.namespace.angelscript",
+            "settings": {
+              "foreground": "#4EC9B0"
+            }
+          },
+          {
+            "scope": "support.namespace.builtin.angelscript",
+            "settings": {
+              "foreground": "#4EC9B0",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "entity.name.namespace.angelscript",
+            "settings": {
+              "foreground": "#4EC9B0"
+            }
+          },
+          {
+            "scope": [
+              "entity.name.type.angelscript",
+              "entity.name.type.enum.angelscript",
+              "storage.type.angelscript"
+            ],
+            "settings": {
+              "foreground": "#C792EA"
+            }
+          },
+          {
+            "scope": "support.type.openplanet.angelscript",
+            "settings": {
+              "foreground": "#A9B7FF"
+            }
+          },
+          {
+            "scope": [
+              "storage.type.primitive.angelscript",
+              "support.type.container.angelscript"
+            ],
+            "settings": {
+              "foreground": "#B39DDB"
+            }
+          },
+          {
+            "scope": [
+              "constant.other.icon.angelscript"
+            ],
+            "settings": {
+              "foreground": "#C3E88D",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "constant.other.enum-member.angelscript",
+            "settings": {
+              "foreground": "#5ECF8D",
+              "fontStyle": "bold"
+            }
+          },
+          {
+            "scope": "keyword.control.angelscript",
+            "settings": {
+              "foreground": "#569CD6",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "keyword.operator.word.angelscript",
+              "keyword.operator.logical.angelscript",
+              "keyword.control.directive.angelscript",
+              "keyword.other.angelscript",
+              "keyword.other.new.angelscript",
+              "keyword.other.import.angelscript"
+            ],
+            "settings": {
+              "foreground": "#569CD6"
+            }
+          },
+          {
+            "scope": "storage.modifier.angelscript",
+            "settings": {
+              "foreground": "#FFCB6B"
+            }
+          },
+          {
+            "scope": "invalid.deprecated.preprocessor.include.angelscript",
+            "settings": {
+              "foreground": "#FF9B9B"
+            }
+          },
+          {
+            "scope": "invalid.warning.preprocessor.define.angelscript",
+            "settings": {
+              "foreground": "#FFB86B"
+            }
+          },
+          {
+            "scope": [
+              "invalid.illegal.preprocessor.define.angelscript",
+              "invalid.illegal.preprocessor.command.angelscript"
+            ],
+            "settings": {
+              "foreground": "#FF9B9B"
             }
           }
         ]
