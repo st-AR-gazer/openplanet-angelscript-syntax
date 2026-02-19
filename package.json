@@ -69,6 +69,12 @@
         "aliases": ["Openplanet AngelScript", "AngelScript (Openplanet)"],
         "extensions": [".as"],
         "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "angelscript_snippet",
+        "aliases": ["Openplanet AngelScript Snippet", "angelscript_snippet"],
+        "extensions": [],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -76,6 +82,121 @@
         "language": "openplanet-angelscript",
         "scopeName": "source.angelscript.openplanet",
         "path": "./syntaxes/openplanet-angelscript.tmLanguage.json"
+      },
+      {
+        "language": "angelscript_snippet",
+        "scopeName": "source.angelscript_snippet",
+        "path": "./syntaxes/openplanet-angelscript-snippet.tmLanguage.json"
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "language": "openplanet-angelscript",
+        "scopes": {
+          "namespace": [
+            "entity.name.namespace.angelscript",
+            "support.namespace.angelscript",
+            "support.namespace.builtin.angelscript"
+          ],
+          "type": [
+            "entity.name.type.angelscript",
+            "storage.type.angelscript",
+            "storage.type.primitive.angelscript",
+            "support.type.container.angelscript",
+            "support.type.openplanet.angelscript"
+          ],
+          "class": [
+            "entity.name.type.angelscript",
+            "support.type.openplanet.angelscript"
+          ],
+          "enum": [
+            "entity.name.type.enum.angelscript"
+          ],
+          "enumMember": [
+            "constant.other.enum-member.angelscript"
+          ],
+          "function": [
+            "entity.name.function.angelscript",
+            "entity.name.function.callback.angelscript",
+            "support.function.builtin.openplanet.angelscript"
+          ],
+          "method": [
+            "meta.member.function-call.angelscript entity.name.function.angelscript"
+          ],
+          "property": [
+            "variable.other.member.angelscript"
+          ],
+          "variable": [
+            "variable.other.readwrite.angelscript",
+            "variable.other.angelscript"
+          ],
+          "variable.readonly": [
+            "variable.other.constant.angelscript",
+            "constant.other.caps.angelscript"
+          ],
+          "keyword": [
+            "keyword.control.angelscript",
+            "keyword.other.angelscript",
+            "keyword.other.new.angelscript",
+            "keyword.other.import.angelscript"
+          ],
+          "operator": [
+            "keyword.operator.word.angelscript",
+            "keyword.operator.logical.angelscript",
+            "keyword.operator.assignment.angelscript"
+          ],
+          "string": [
+            "string.quoted.double.angelscript",
+            "string.quoted.single.angelscript"
+          ],
+          "number": [
+            "constant.numeric.integer.angelscript",
+            "constant.numeric.float.angelscript",
+            "constant.numeric.hex.angelscript"
+          ],
+          "comment": [
+            "comment.line.double-slash.angelscript",
+            "comment.block.angelscript"
+          ]
+        }
+      },
+      {
+        "language": "angelscript_snippet",
+        "scopes": {
+          "namespace": [
+            "entity.name.namespace.angelscript",
+            "support.namespace.angelscript",
+            "support.namespace.builtin.angelscript"
+          ],
+          "type": [
+            "entity.name.type.angelscript",
+            "storage.type.angelscript",
+            "storage.type.primitive.angelscript",
+            "support.type.container.angelscript",
+            "support.type.openplanet.angelscript"
+          ],
+          "function": [
+            "entity.name.function.angelscript",
+            "support.function.builtin.openplanet.angelscript"
+          ],
+          "variable": [
+            "variable.other.readwrite.angelscript",
+            "variable.other.angelscript"
+          ],
+          "string": [
+            "string.quoted.double.angelscript",
+            "string.quoted.single.angelscript"
+          ],
+          "number": [
+            "constant.numeric.integer.angelscript",
+            "constant.numeric.float.angelscript",
+            "constant.numeric.hex.angelscript"
+          ],
+          "comment": [
+            "comment.line.double-slash.angelscript",
+            "comment.block.angelscript"
+          ]
+        }
       }
     ],
     "configurationDefaults": {

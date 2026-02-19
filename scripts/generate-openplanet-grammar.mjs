@@ -502,9 +502,40 @@ function upsertOpenplanetVariableDefinitionPatterns(grammar, typeChunks) {
   patterns.splice(insertVarAt, 0, ...nonConstPatterns);
 }
 
-function updateConstructorCallPattern(grammar, globalFunctionAlternation) {
+function updateConstructorCallPattern(grammar) {
   findPatternByName(grammar, "meta.constructor.call.angelscript").match =
-    String.raw`(?:\bnew\s+|\breturn\s+|=\s*|@\s*|\(\s*|,\s*)(?!(?:CoroutineFunc|CoroutineFuncUserdata)\b)(?!(?:${globalFunctionAlternation})\b)([A-Z][A-Za-z0-9_]*)\b(?=\s*\()`;
+    String.raw`(?<=\bnew\s)(?!(?:CoroutineFunc|CoroutineFuncUserdata)\b)([A-Z][A-Za-z0-9_]*)\b(?=\s*\()`;
+}
+
+function moveIncludeAfter(patterns, includeToMove, includeAfter) {
+  const moveIndex = patterns.findIndex((pattern) => pattern?.include === includeToMove);
+  if (moveIndex < 0) return;
+
+  const afterIndex = patterns.findIndex((pattern) => pattern?.include === includeAfter);
+  if (afterIndex < 0 || moveIndex === afterIndex + 1) return;
+
+  const [entry] = patterns.splice(moveIndex, 1);
+  const nextAfterIndex = patterns.findIndex((pattern) => pattern?.include === includeAfter);
+  const insertIndex = nextAfterIndex >= 0 ? nextAfterIndex + 1 : patterns.length;
+  patterns.splice(insertIndex, 0, entry);
+}
+
+function stabilizeFunctionAndTypeScopes(grammar) {
+  if (Array.isArray(grammar.patterns)) {
+    moveIncludeAfter(grammar.patterns, "#types", "#functionCalls");
+  }
+
+  const typeIdentifierPatterns = grammar?.repository?.typeIdentifiers?.patterns;
+  if (Array.isArray(typeIdentifierPatterns) && typeIdentifierPatterns.length > 0) {
+    const primaryTypeIdentifierPattern = typeIdentifierPatterns[0];
+    if (
+      primaryTypeIdentifierPattern &&
+      primaryTypeIdentifierPattern.name === "entity.name.type.angelscript"
+    ) {
+      primaryTypeIdentifierPattern.match =
+        String.raw`\b[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9_]*\b(?!\s*\()`;
+    }
+  }
 }
 
 function main() {
@@ -525,7 +556,8 @@ function main() {
   upsertKnownTypePatterns(grammar, typeChunks);
   upsertBuiltinGlobalFunctions(grammar, globalFunctionAlternation);
   upsertOpenplanetVariableDefinitionPatterns(grammar, typeChunks);
-  updateConstructorCallPattern(grammar, globalFunctionAlternation);
+  updateConstructorCallPattern(grammar);
+  stabilizeFunctionAndTypeScopes(grammar);
 
   fs.writeFileSync(grammarPath, `${JSON.stringify(grammar, null, 2)}\n`, "utf8");
 

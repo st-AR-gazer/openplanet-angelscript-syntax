@@ -9,6 +9,9 @@ Features
 - Icons:: helpers, enums, handles, and Openplanet types
 - Data-driven built-in namespace/type/function highlighting generated from your local Openplanet JSON metadata
 - Per-session automatic symbol refresh on VS Code startup, plus manual refresh command/button
+- Secondary snippet language scope: `angelscript_snippet`
+- Semantic-token scope mappings in the extension manifest for consistent semantic coloring
+- Function/type color consistency improvements (function-call scopes now win over broad type fallback scopes)
 
 Semantic Color Taxonomy v1 (Dark)
 - Dark-theme focused, concept-driven, opinionated, and accessibility-aware.
@@ -23,6 +26,7 @@ Semantic Color Taxonomy v1 (Dark)
 
 Language ID
 - `openplanet-angelscript`
+- `angelscript_snippet` (for snippet/code-block markdown scope usage)
 
 If `.as` files do not pick up the language automatically, add this to your VS Code `settings.json`:
 

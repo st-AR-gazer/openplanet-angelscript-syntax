@@ -34,9 +34,6 @@
       "include": "#handleVariables"
     },
     {
-      "include": "#types"
-    },
-    {
       "include": "#constants"
     },
     {
@@ -50,6 +47,9 @@
     },
     {
       "include": "#functionCalls"
+    },
+    {
+      "include": "#types"
     },
     {
       "include": "#variables"
@@ -1220,7 +1220,7 @@
       "patterns": [
         {
           "name": "meta.constructor.call.angelscript",
-          "match": "(?:\\bnew\\s+|\\breturn\\s+|=\\s*|@\\s*|\\(\\s*|,\\s*)(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)(?!(?:OpenplanetHasFullPermissions|OpenplanetHasPaidPermissions|PrintActiveContextStack|UnregisterLoadCallback|RegisterLoadCallback|GetCmdBufferCore|getExceptionInfo|OpenExplorerPath|GetSystemConfig|OpenBrowserURL|GetFidFromNod|GetLocalLogin|ExploreNod|awaitany|startnew|tostring|GetApp|await|error|print|sleep|throw|trace|yield|warn)\\b)([A-Z][A-Za-z0-9_]*)\\b(?=\\s*\\()",
+          "match": "(?<=\\bnew\\s)(?!(?:CoroutineFunc|CoroutineFuncUserdata)\\b)([A-Z][A-Za-z0-9_]*)\\b(?=\\s*\\()",
           "captures": {
             "1": {
               "name": "entity.name.type.angelscript"
@@ -1241,7 +1241,7 @@
       "patterns": [
         {
           "name": "entity.name.type.angelscript",
-          "match": "\\b[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9]*\\b"
+          "match": "\\b[A-Z][A-Za-z0-9]*[a-z][A-Za-z0-9_]*\\b(?!\\s*\\()"
         }
       ]
     },

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Openplanet AngelScript Snippet",
+  "scopeName": "source.angelscript_snippet",
+  "patterns": [
+    {
+      "include": "source.angelscript.openplanet"
+    }
+  ]
+}
