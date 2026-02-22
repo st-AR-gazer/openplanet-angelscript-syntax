@@ -87,7 +87,7 @@
         },
         {
           "name": "meta.preprocessor.if.single-invalid.angelscript",
-          "begin": "^\\s*#\\s*(if|elif)\\b(?=[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)",
+          "begin": "^\\s*#\\s*(if|elif)\\b(?=[^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b)",
           "end": "$",
           "beginCaptures": {
             "1": {
@@ -117,7 +117,7 @@
         },
         {
           "name": "meta.preprocessor.define.single-invalid.angelscript",
-          "begin": "^\\s*#\\s*(define|undef)\\b(?=[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b)[A-Za-z_]\\w*\\b)",
+          "begin": "^\\s*#\\s*(define|undef)\\b(?=[^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b)(?![^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b[^\\n]*\\b(?!(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b)[A-Za-z_]\\w*\\b)",
           "end": "$",
           "beginCaptures": {
             "1": {
@@ -187,7 +187,7 @@
         },
         {
           "name": "constant.other.preprocessor.define.angelscript",
-          "match": "\\b(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b"
+          "match": "\\b(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b"
         },
         {
           "name": "invalid.illegal.preprocessor.define.angelscript",
@@ -213,7 +213,7 @@
         },
         {
           "name": "constant.other.preprocessor.define.angelscript",
-          "match": "\\b(?:FOREVER|UNITED_FOREVER|NATIONS_FOREVER|MP3|TURBO|MP4|MP40|MP41|TMNEXT|LOGS|HAS_DEV|SERVER|MANIA64|MANIA32|WINDOWS|WINDOWS_WINE|LINUX|DEVELOPER|SIG_OFFICIAL|SIG_REGULAR|SIG_SCHOOL|SIG_DEVELOPER|COMP_[A-Z0-9_]+)\\b"
+          "match": "\\b(?:COMP_[A-Z0-9_]+|NATIONS_FOREVER|UNITED_FOREVER|SIG_DEVELOPER|SIG_OFFICIAL|WINDOWS_WINE|SIG_REGULAR|SIG_SCHOOL|DEVELOPER|FOREVER|HAS_DEV|MANIA32|MANIA64|WINDOWS|SERVER|TMNEXT|LINUX|TURBO|LOGS|MP40|MP41|MP3|MP4)\\b"
         },
         {
           "name": "invalid.warning.preprocessor.define.angelscript",
@@ -407,6 +407,28 @@
     "strings": {
       "patterns": [
         {
+          "name": "string.quoted.double.prefixed.n.angelscript",
+          "begin": "\\bn\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.angelscript",
+              "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|.)"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.prefixed.f.angelscript",
+          "begin": "\\bf\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.angelscript",
+              "match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8}|.)"
+            }
+          ]
+        },
+        {
           "name": "string.quoted.double.angelscript",
           "begin": "\"",
           "end": "\"",
@@ -433,20 +455,28 @@
     "numbers": {
       "patterns": [
         {
+          "name": "constant.numeric.binary.angelscript",
+          "match": "\\b0[bB][01](?:[01_]*[01])?(?:[uUlL]{0,2})\\b"
+        },
+        {
           "name": "constant.numeric.hex.angelscript",
-          "match": "\\b0[xX][0-9A-Fa-f]+\\b"
+          "match": "\\b0[xX][0-9A-Fa-f](?:[0-9A-Fa-f_]*[0-9A-Fa-f])?(?:[uUlL]{0,2})\\b"
         },
         {
           "name": "constant.numeric.float.angelscript",
-          "match": "\\b\\d+\\.\\d*([eE][+-]?\\d+)?[fF]?\\b"
+          "match": "\\b\\d(?:[\\d_]*\\d)?\\.\\d(?:[\\d_]*\\d)?(?:[eE][+-]?\\d(?:[\\d_]*\\d)?)?[fFdD]?\\b"
         },
         {
           "name": "constant.numeric.float.angelscript",
-          "match": "(?<![\\w\\.])\\.\\d+([eE][+-]?\\d+)?[fF]?\\b"
+          "match": "(?<![\\w\\.])\\.\\d(?:[\\d_]*\\d)?(?:[eE][+-]?\\d(?:[\\d_]*\\d)?)?[fFdD]?\\b"
+        },
+        {
+          "name": "constant.numeric.float.angelscript",
+          "match": "\\b\\d(?:[\\d_]*\\d)?[eE][+-]?\\d(?:[\\d_]*\\d)?[fFdD]?\\b"
         },
         {
           "name": "constant.numeric.integer.angelscript",
-          "match": "\\b\\d+\\b"
+          "match": "\\b\\d(?:[\\d_]*\\d)?(?:[uUlL]{0,2})\\b"
         }
       ]
     },
@@ -643,7 +673,7 @@
         },
         {
           "name": "meta.function.definition.callback.angelscript",
-          "match": "\\b(?:\\b(?:private|protected|shared|external|abstract|mixin|final|override)\\b\\s+)*((?:const\\s+)?(?:[A-Za-z_]\\w*(?:\\s*<[^>]*>)?(?:\\s*::\\s*[A-Za-z_]\\w*)?)(?:\\s*\\[\\])*(?:\\s*[@&]+)?)\\s+(Main|Render|RenderInterface|RenderMenu|RenderMenuMain|RenderSettings|RenderEarly|Update|OnDisabled|OnEnabled|OnDestroyed|OnSettingsChanged|OnSettingsSave|OnSettingsLoad|OnKeyPress|OnMouseButton|OnMouseMove|OnMouseWheel|OnLoadCallback)\\s*(?=\\()",
+          "match": "\\b(?:\\b(?:private|protected|shared|external|abstract|mixin|final|override)\\b\\s+)*((?:const\\s+)?(?:[A-Za-z_]\\w*(?:\\s*<[^>]*>)?(?:\\s*::\\s*[A-Za-z_]\\w*)?)(?:\\s*\\[\\])*(?:\\s*[@&]+)?)\\s+(OnSettingsChanged|RenderInterface|OnLoadCallback|OnSettingsLoad|OnSettingsSave|RenderMenuMain|RenderSettings|OnMouseButton|OnMouseWheel|OnDestroyed|OnMouseMove|RenderEarly|OnDisabled|OnKeyPress|RenderMenu|OnEnabled|Render|Update|Main)\\s*(?=\\()",
           "captures": {
             "1": {
               "name": "storage.type.angelscript"

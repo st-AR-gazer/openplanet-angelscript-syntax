@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+- Add automated grammar regression suite (`npm test`) to validate literal coverage, scope mappings, and metadata sync invariants
+- Add shared grammar metadata/config module to remove drift between generator/watch scripts
+- Add static grammar metadata sync command (`npm run sync:static-grammar`) for preprocessor define + callback regex lists
+- Extend literal support with prefixed strings (`n"..."`, `f"..."`) and expanded numeric forms (binary, suffixed, scientific)
+- Align watcher metadata detection with generator discovery semantics for `Openplanet*.json` and `Openplanet.h`
+
 ## [0.2.0] - 2026-02-07
 
 - Semantic color taxonomy v1 (dark preset): concept-based full-scope highlighting palette

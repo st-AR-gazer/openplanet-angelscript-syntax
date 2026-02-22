@@ -13,6 +13,8 @@
     { "open": "[", "close": "]" },
     { "open": "(", "close": ")" },
     { "open": "\"", "close": "\"", "notIn": ["string"] },
+    { "open": "n\"", "close": "\"", "notIn": ["string"] },
+    { "open": "f\"", "close": "\"", "notIn": ["string"] },
     { "open": "'", "close": "'", "notIn": ["string", "comment"] }
   ],
   "autoCloseBefore": ";:.,=}])> \n\t",
@@ -21,6 +23,8 @@
     ["[", "]"],
     ["(", ")"],
     ["\"", "\""],
+    ["n\"", "\""],
+    ["f\"", "\""],
     ["'", "'"]
   ],
   "folding": {

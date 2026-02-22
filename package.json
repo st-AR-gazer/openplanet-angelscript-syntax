@@ -25,8 +25,10 @@
   },
   "homepage": "https://github.com/st-AR-gazer/openplanet-angelscript-syntax#readme",
   "scripts": {
+    "sync:static-grammar": "node scripts/sync-static-grammar-metadata.mjs",
     "generate:openplanet-grammar": "node scripts/generate-openplanet-grammar.mjs",
-    "watch:openplanet-grammar": "node scripts/watch-openplanet-grammar.mjs"
+    "watch:openplanet-grammar": "node scripts/watch-openplanet-grammar.mjs",
+    "test": "node scripts/sync-static-grammar-metadata.mjs --check && node scripts/test-grammar-regressions.mjs"
   },
   "contributes": {
     "commands": [
@@ -147,12 +149,15 @@
           ],
           "string": [
             "string.quoted.double.angelscript",
-            "string.quoted.single.angelscript"
+            "string.quoted.single.angelscript",
+            "string.quoted.double.prefixed.n.angelscript",
+            "string.quoted.double.prefixed.f.angelscript"
           ],
           "number": [
             "constant.numeric.integer.angelscript",
             "constant.numeric.float.angelscript",
-            "constant.numeric.hex.angelscript"
+            "constant.numeric.hex.angelscript",
+            "constant.numeric.binary.angelscript"
           ],
           "comment": [
             "comment.line.double-slash.angelscript",
@@ -185,12 +190,15 @@
           ],
           "string": [
             "string.quoted.double.angelscript",
-            "string.quoted.single.angelscript"
+            "string.quoted.single.angelscript",
+            "string.quoted.double.prefixed.n.angelscript",
+            "string.quoted.double.prefixed.f.angelscript"
           ],
           "number": [
             "constant.numeric.integer.angelscript",
             "constant.numeric.float.angelscript",
-            "constant.numeric.hex.angelscript"
+            "constant.numeric.hex.angelscript",
+            "constant.numeric.binary.angelscript"
           ],
           "comment": [
             "comment.line.double-slash.angelscript",
@@ -215,7 +223,9 @@
           {
             "scope": [
               "string.quoted.double.angelscript",
-              "string.quoted.single.angelscript"
+              "string.quoted.single.angelscript",
+              "string.quoted.double.prefixed.n.angelscript",
+              "string.quoted.double.prefixed.f.angelscript"
             ],
             "settings": {
               "foreground": "#CE9178"
@@ -225,7 +235,8 @@
             "scope": [
               "constant.numeric.integer.angelscript",
               "constant.numeric.float.angelscript",
-              "constant.numeric.hex.angelscript"
+              "constant.numeric.hex.angelscript",
+              "constant.numeric.binary.angelscript"
             ],
             "settings": {
               "foreground": "#B5CEA8"

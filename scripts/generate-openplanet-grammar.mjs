@@ -3,6 +3,18 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  collectInstallDirsFromEnv,
+  coreJsonFileName,
+  defaultInstallDirNames,
+  gameJsonFileRx,
+  normalizeBool,
+  parseArgs,
+  resolveUniquePaths,
+  valueToList,
+} from "./openplanet-grammar-config.mjs";
+import { applyStaticGrammarMetadata } from "./openplanet-grammar-static.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..");
@@ -36,49 +48,8 @@ const primitiveTypes = new Set([
 ]);
 
 const alwaysIncludeNamespaces = ["Controls", "Camera", "VehicleState", "NadeoServices"];
-const defaultInstallDirNames = ["OpenplanetNext", "OpenplanetTurbo", "Openplanet4"];
 const identRx = /^[A-Za-z_][A-Za-z0-9_]*$/;
 const namespaceRx = /^[A-Za-z_][A-Za-z0-9_]*(?:::[A-Za-z_][A-Za-z0-9_]*)*$/;
-
-function parseArgs(argv) {
-  const args = {};
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i];
-    if (!arg.startsWith("--")) continue;
-    const [key, inlineValue] = arg.slice(2).split("=", 2);
-    const next = argv[i + 1];
-
-    let value;
-    if (inlineValue !== undefined) {
-      value = inlineValue;
-    } else if (next && !next.startsWith("--")) {
-      value = next;
-      i++;
-    } else {
-      value = "true";
-    }
-
-    if (args[key] === undefined) args[key] = value;
-    else if (Array.isArray(args[key])) args[key].push(value);
-    else args[key] = [args[key], value];
-  }
-  return args;
-}
-
-function valueToList(value) {
-  if (value === undefined || value === null) return [];
-  const values = Array.isArray(value) ? value : [value];
-  const out = [];
-  for (const raw of values) {
-    if (raw === undefined || raw === null) continue;
-    for (const chunk of String(raw).split(/[;\r\n]/g)) {
-      const trimmed = chunk.trim();
-      if (!trimmed) continue;
-      out.push(trimmed);
-    }
-  }
-  return out;
-}
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
@@ -121,25 +92,6 @@ function chunkAlternation(values, maxChunkLength = 18000) {
 
   if (current.length > 0) chunks.push(current.join("|"));
   return chunks;
-}
-
-function normalizeBool(value) {
-  if (value === true || value === "true" || value === "1") return true;
-  if (value === false || value === "false" || value === "0") return false;
-  return false;
-}
-
-function resolveUniquePaths(paths) {
-  const seen = new Set();
-  const result = [];
-  for (const p of paths) {
-    const resolved = path.resolve(p);
-    const key = process.platform === "win32" ? resolved.toLowerCase() : resolved;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    result.push(resolved);
-  }
-  return result;
 }
 
 function fileExists(filePath) {
@@ -232,11 +184,11 @@ function discoverInstallDataFiles(installDir, includeHeaders) {
 
   for (const entry of fs.readdirSync(installDir, { withFileTypes: true })) {
     if (!entry.isFile()) continue;
-    if (entry.name === "OpenplanetCore.json") {
+    if (entry.name === coreJsonFileName) {
       coreJsonPaths.push(path.join(installDir, entry.name));
       continue;
     }
-    if (/^Openplanet(?!Core)[A-Za-z0-9_]*\.json$/i.test(entry.name)) {
+    if (gameJsonFileRx.test(entry.name)) {
       gameJsonPaths.push(path.join(installDir, entry.name));
     }
   }
@@ -268,12 +220,7 @@ function resolveSourcePaths(args) {
     ...valueToList(args["openplanet-dirs"]),
   ]);
 
-  const envInstallDirs = resolveUniquePaths([
-    ...valueToList(process.env.OPENPLANET_DIRS),
-    ...valueToList(process.env.OPENPLANET_NEXT_DIR),
-    ...valueToList(process.env.OPENPLANET_TURBO_DIR),
-    ...valueToList(process.env.OPENPLANET4_DIR),
-  ]);
+  const envInstallDirs = collectInstallDirsFromEnv();
 
   const defaultInstallDirs = resolveUniquePaths(
     defaultInstallDirNames.map((name) => path.join(os.homedir(), name)),
@@ -545,6 +492,7 @@ function main() {
 
   const sourcePaths = resolveSourcePaths(args);
   const grammar = readJson(grammarPath);
+  applyStaticGrammarMetadata(grammar);
   const { namespaces, types, globalFunctions } = collectSymbolsFromSources(sourcePaths);
 
   const namespaceAlternation = makeAlternation(namespaces);

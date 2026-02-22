@@ -1,6 +1,6 @@
 # Openplanet AngelScript Syntax
 
-Syntax highlighting and language configuration for Openplanet-flavored AngelScript (`.as`). This extension is grammar-only and is intended to work alongside my language server (not released yet).
+Syntax highlighting and language configuration for Openplanet-flavored AngelScript (`.as`). This extension is grammar-first and is designed to pair with `openplanet-angelscript-languageserver`.
 
 Features
 - Openplanet preprocessor directives and define validation
@@ -12,6 +12,8 @@ Features
 - Secondary snippet language scope: `angelscript_snippet`
 - Semantic-token scope mappings in the extension manifest for consistent semantic coloring
 - Function/type color consistency improvements (function-call scopes now win over broad type fallback scopes)
+- Prefixed string literals (`n"..."`, `f"..."`) and expanded numeric literal coverage (binary, suffixed, scientific)
+- Automated grammar regression tests (`npm test`)
 
 Semantic Color Taxonomy v1 (Dark)
 - Dark-theme focused, concept-driven, opinionated, and accessibility-aware.
@@ -39,6 +41,8 @@ If `.as` files do not pick up the language automatically, add this to your VS Co
 ```
 
 Regenerate Data-Driven Symbols
+- `npm run sync:static-grammar`
+  - Keeps callback/preprocessor define regex lists in sync from shared metadata.
 - `npm run generate:openplanet-grammar`
 - By default this reads:
   - `%USERPROFILE%/OpenplanetNext/*.json`
@@ -51,6 +55,10 @@ Regenerate Data-Driven Symbols
   - `node scripts/generate-openplanet-grammar.mjs --openplanet-dir "D:/OpenplanetNext"`
 - `node scripts/generate-openplanet-grammar.mjs --openplanet-dirs "D:/OpenplanetNext;D:/OpenplanetTurbo;D:/Openplanet4"`
 - `node scripts/generate-openplanet-grammar.mjs --core "D:/OpenplanetNext/OpenplanetCore.json" --game "D:/OpenplanetNext/OpenplanetNext.json" --header "D:/OpenplanetNext/Openplanet.h"`
+
+Regression Tests
+- `npm test`
+  - Verifies static metadata sync, literal coverage rules, semantic scope mappings, and watcher/generator metadata-file detection behavior.
 
 Session Refresh
 - On VS Code session start, the extension refreshes symbol metadata once by default.

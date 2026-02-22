@@ -4,62 +4,26 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  collectInstallDirsFromEnv,
+  defaultInstallDirNames,
+  normalizeBool,
+  parseArgs,
+  resolveUniquePaths,
+  valueToList,
+  watchedMetadataFileRx,
+} from "./openplanet-grammar-config.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const defaultInstallDirNames = ["OpenplanetNext", "OpenplanetTurbo", "Openplanet4"];
-const watchedFileRx = /^Openplanet(?:Core|Next|Turbo|4)?\.json$|^Openplanet\.h$/i;
-
-function parseArgs(argv) {
-  const args = {};
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i];
-    if (!arg.startsWith("--")) continue;
-    const [key, inlineValue] = arg.slice(2).split("=", 2);
-    const next = argv[i + 1];
-
-    let value;
-    if (inlineValue !== undefined) {
-      value = inlineValue;
-    } else if (next && !next.startsWith("--")) {
-      value = next;
-      i++;
-    } else {
-      value = "true";
-    }
-
-    if (args[key] === undefined) args[key] = value;
-    else if (Array.isArray(args[key])) args[key].push(value);
-    else args[key] = [args[key], value];
-  }
-  return args;
-}
-
-function valueToList(value) {
-  if (value === undefined || value === null) return [];
-  const values = Array.isArray(value) ? value : [value];
-  const out = [];
-  for (const raw of values) {
-    if (raw === undefined || raw === null) continue;
-    for (const chunk of String(raw).split(/[;\r\n]/g)) {
-      const trimmed = chunk.trim();
-      if (!trimmed) continue;
-      out.push(trimmed);
-    }
-  }
-  return out;
-}
-
-function normalizeBool(value) {
-  if (value === true || value === "true" || value === "1") return true;
-  if (value === false || value === "false" || value === "0") return false;
-  return false;
-}
 
 function resolveInstallDirs(args) {
-  const explicit = valueToList(args["openplanet-dirs"]);
-  const single = valueToList(args["openplanet-dir"]);
-  const env = valueToList(process.env.OPENPLANET_DIRS);
-  const base = explicit.length > 0 || single.length > 0 ? [...explicit, ...single] : env;
+  const explicit = resolveUniquePaths([
+    ...valueToList(args["openplanet-dirs"]),
+    ...valueToList(args["openplanet-dir"]),
+  ]);
+  const env = collectInstallDirsFromEnv();
+  const base = explicit.length > 0 ? explicit : env;
   const dirs =
     base.length > 0
       ? base
@@ -136,7 +100,7 @@ function main() {
   const watchers = installDirs.map((dir) =>
     fs.watch(dir, { persistent: true }, (_eventType, filename) => {
       if (!filename) return;
-      if (!watchedFileRx.test(filename)) return;
+      if (!watchedMetadataFileRx.test(filename)) return;
       schedule(`${path.basename(dir)}/${filename}`);
     }),
   );
