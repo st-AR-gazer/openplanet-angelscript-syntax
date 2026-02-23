@@ -91,6 +91,16 @@
         "path": "./syntaxes/openplanet-angelscript-snippet.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "openplanet-angelscript",
+        "path": "./snippets/openplanet-directives.code-snippets"
+      },
+      {
+        "language": "angelscript_snippet",
+        "path": "./snippets/openplanet-directives.code-snippets"
+      }
+    ],
     "semanticTokenScopes": [
       {
         "language": "openplanet-angelscript",

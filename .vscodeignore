@@ -1,6 +1,7 @@
 .git/**
 .github/**
 .vscode/**
+../**
 **/*.log
 **/*.ts
 **/*.map

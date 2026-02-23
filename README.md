@@ -10,6 +10,7 @@ Features
 - Data-driven built-in namespace/type/function highlighting generated from your local Openplanet JSON metadata
 - Per-session automatic symbol refresh on VS Code startup, plus manual refresh command/button
 - Secondary snippet language scope: `angelscript_snippet`
+- Directive snippet autocomplete for `//op...` workflows (`oplint`, `opfmt`, `oplang`, `opsyn`, `opall`, and generic `op-*` templates)
 - Semantic-token scope mappings in the extension manifest for consistent semantic coloring
 - Function/type color consistency improvements (function-call scopes now win over broad type fallback scopes)
 - Prefixed string literals (`n"..."`, `f"..."`) and expanded numeric literal coverage (binary, suffixed, scientific)

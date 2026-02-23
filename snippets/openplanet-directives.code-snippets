@@ -1,0 +1,110 @@
+{
+  "OP Directive: Generic Disable Next Line": {
+    "prefix": ["op-disable-next-line", "opdnl", "opnext"],
+    "body": "// op-disable-next-line ${1:lint|opsyn} ${2:*}",
+    "description": "Suite-level directive template. Target examples: lint, lang, opsyn, form, all, lint|opsyn."
+  },
+  "OP Directive: Generic Disable": {
+    "prefix": ["op-disable", "opdis"],
+    "body": "// op-disable ${1:all} ${2:*}",
+    "description": "Suite-level directive template to disable checks/formatting until re-enabled."
+  },
+  "OP Directive: Generic Enable": {
+    "prefix": ["op-enable", "openable"],
+    "body": "// op-enable ${1:all} ${2:*}",
+    "description": "Suite-level directive template to re-enable previously disabled targets."
+  },
+  "OP Directive: Generic Disable Block": {
+    "prefix": ["op-disable-block", "opdb"],
+    "body": [
+      "// op-disable-start ${1:all} ${2:*}",
+      "${0}",
+      "// op-disable-end ${1:all} ${2:*}"
+    ],
+    "description": "Suite-level block disable template."
+  },
+  "OP Linter: Disable Next Line": {
+    "prefix": ["oplint-disable-next-line", "oplint-next", "oplint"],
+    "body": "// oplint-disable-next-line ${1:*}",
+    "description": "Disable linter rule(s) for the next line."
+  },
+  "OP Linter: Disable File": {
+    "prefix": ["oplint-disable", "oplint-file"],
+    "body": "// oplint-disable ${1:*}",
+    "description": "Disable linter rule(s) for the file scope."
+  },
+  "OP Linter: Enable": {
+    "prefix": ["oplint-enable"],
+    "body": "// oplint-enable ${1:*}",
+    "description": "Re-enable linter rule(s)."
+  },
+  "OP Linter: Disable Block": {
+    "prefix": ["oplint-disable-block", "oplint-block"],
+    "body": [
+      "// oplint-disable-start ${1:*}",
+      "${0}",
+      "// oplint-disable-end ${1:*}"
+    ],
+    "description": "Disable linter rule(s) for a block."
+  },
+  "OP Formatter: Disable Next Line": {
+    "prefix": ["opfmt-disable-next-line", "opfmt-next", "opfmt"],
+    "body": "// opfmt-disable-next-line",
+    "description": "Disable formatter for the next line."
+  },
+  "OP Formatter: Disable File": {
+    "prefix": ["opfmt-disable", "opfmt-file"],
+    "body": "// opfmt-disable",
+    "description": "Disable formatter for the file scope."
+  },
+  "OP Formatter: Enable": {
+    "prefix": ["opfmt-enable"],
+    "body": "// opfmt-enable",
+    "description": "Re-enable formatter."
+  },
+  "OP Formatter: Disable Block": {
+    "prefix": ["opfmt-disable-block", "opfmt-block"],
+    "body": [
+      "// opfmt-disable-start",
+      "${0}",
+      "// opfmt-disable-end"
+    ],
+    "description": "Disable formatter for a block."
+  },
+  "OP Language Server: Disable Next Line": {
+    "prefix": ["oplang-disable-next-line", "oplang-next", "oplang"],
+    "body": "// oplang-disable-next-line ${1:*}",
+    "description": "Language-server directive template (project convention)."
+  },
+  "OP Syntax: Disable Next Line": {
+    "prefix": [
+      "opsyn-disable-next-line",
+      "opsyn-next",
+      "opsyn",
+      "opsynt-disable-next-line",
+      "opsynt-next",
+      "opsynt"
+    ],
+    "body": "// opsyn-disable-next-line ${1:*}",
+    "description": "Syntax-highlighter directive template (project convention)."
+  },
+  "OP All: Disable Next Line": {
+    "prefix": ["opall-disable-next-line", "opall-next", "opall"],
+    "body": [
+      "// oplint-disable-next-line ${1:*}",
+      "// opfmt-disable-next-line"
+    ],
+    "description": "Disable both linter and formatter on the next line."
+  },
+  "OP All: Disable Block": {
+    "prefix": ["opall-disable-block", "opall-block"],
+    "body": [
+      "// oplint-disable-start ${1:*}",
+      "// opfmt-disable-start",
+      "${0}",
+      "// opfmt-disable-end",
+      "// oplint-disable-end ${1:*}"
+    ],
+    "description": "Disable both linter and formatter over a block."
+  }
+}
